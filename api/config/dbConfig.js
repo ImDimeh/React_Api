@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 var username = "Admin";
 var password = "l5lD9cW5jlEXEomb";
 
-mongoose.connect(
+const db = mongoose.connect(
   "mongodb+srv://" +
     username +
     ":" +
@@ -16,3 +16,4 @@ mongoose.connect(
     console.log("Error connecting to DB", e);
   }
 );
+export default db;
