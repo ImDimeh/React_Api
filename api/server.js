@@ -1,19 +1,21 @@
-const http = require("http");
-const express = require("express");
-const cors = require("cors");
-const { Server } = require("socket.io");
-require("dotenv").config();
-const mongoose = require("mongoose");
-const productRoutes = require("./routes/product_routes");
-const { promiseHooks } = require("v8");
+import http from "http";
+import express from "express";
+import bodyParser from "body-parser";
+import cors from "cors";
+// import { Server } from "socket.io";
+// import dotenv from "dotenv";
+// import mongoose from "mongoose";
+import productRoutes from "./routes/product_routes.js";
+import { promiseHooks } from "v8";
+
 const app = express();
 
-require("./config/dbConfig");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
-app.use("/product", productRoutes );
+import "./config/dbConfig";
 
-app.listen(5500, () => console.log("le serveur demarre sur le port 5500"));
+app.use("/product", productRoutes);
 
-
-
-
+app.listen(5500, () => console.log("Le serveur démarre sur le port 5500"));
