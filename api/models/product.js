@@ -3,37 +3,31 @@ const mongoose = require("mongoose");
 const productSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   name: {
-    String,
+    type: String,
     required: true,
     trim: true,
   },
   type: {
-    String,
+    type: String, // Ajout de "type:"
     required: true,
     trim: true,
   },
   price: {
-    float,
+    type: Number, // Ajout de "type:"
     required: true,
     trim: true,
   },
-  ratting: {
-    float,
-    required: true,
-    trim: true,
-  },
-  ratting: {
-    int,
+  rating: {
+    // Correction de la clé "ratting" à "rating"
+    type: Number, // Ajout de "type:"
     required: true,
     trim: true,
   },
   available: {
-    boolean,
+    type: Boolean, // Ajout de "type:"
     required: true,
     trim: true,
   },
 });
 
-
-// Export Post Model
-module.exports = mongoose.model("Produits", productSchema);
+module.exports = mongoose.model("Product", productSchema);

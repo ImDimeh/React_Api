@@ -4,21 +4,16 @@ const cors = require("cors");
 const { Server } = require("socket.io");
 require("dotenv").config();
 const mongoose = require("mongoose");
+const productRoutes = require("./routes/product_routes");
+const { promiseHooks } = require("v8");
+const app = express();
 
-var username = "Admin" 
-var password = "l5lD9cW5jlEXEomb";
+require("./config/dbConfig");
 
-mongoose.connect(
-  "mongodb+srv://" +
-    username +
-    ":" +
-    password +
-  "@cluster0.invvzhc.mongodb.net/",
-  () => {
-    console.log("Connected to DB " + username);
-  },
-  e => {
-    console.log("Error connecting to DB", e);
-  }
+app.use("/product", productRoutes );
 
-);
+app.listen(5500, () => console.log("le serveur demarre sur le port 5500"));
+
+
+
+
