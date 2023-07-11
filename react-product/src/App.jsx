@@ -118,7 +118,7 @@ export default function Album() {
                       // 16:9
                       pt: "56.25%",
                     }}
-                    image="https://source.unsplash.com/random?wallpapers"
+                    image="https://img.freepik.com/free-photo/close-up-hand-holding-smartphone_23-2149148857.jpg"
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
