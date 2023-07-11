@@ -1,6 +1,7 @@
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
+import DeleteIcon from "@mui/icons-material/Delete";
 import CameraIcon from "@mui/icons-material/PhotoCamera";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -46,6 +47,31 @@ fetch("http://localhost:5500/product")
     console.error("Une erreur s'est produite:", error);
   });
 
+async function deleteProduct(name) {
+  try {
+    const response = await fetch(
+      `http://localhost:5500/delete-product?name=${name}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (response.ok) {
+      const deleteProductResult = await response.json();
+      console.log(deleteProductResult);
+      // Faites ici ce que vous voulez avec les informations de suppression du produit
+    } else {
+      console.error(
+        "Une erreur s'est produite lors de la suppression du produit."
+      );
+    }
+  } catch (error) {
+    console.error(
+      "Une erreur s'est produite lors de la suppression du produit:",
+      error
+    );
+  }
+}
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -95,8 +121,7 @@ export default function Album() {
               spacing={2}
               justifyContent="center"
             >
-              <Button variant="contained">Main call to action</Button>
-              <Button variant="outlined">Secondary action</Button>
+              <Button variant="contained">Creer un produits</Button>
             </Stack>
           </Container>
         </Box>
@@ -118,7 +143,7 @@ export default function Album() {
                       // 16:9
                       pt: "56.25%",
                     }}
-                    image="https://img.freepik.com/free-photo/close-up-hand-holding-smartphone_23-2149148857.jpg"
+                    image="https://source.unsplash.com/random?wallpapers"
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
@@ -139,7 +164,13 @@ export default function Album() {
                   </CardContent>
 
                   <CardActions>
-                    <Button size="small">View</Button>
+                    <Button
+                      variant="outlined"
+                      onclick={deleteProduct(card.name)}
+                      startIcon={<DeleteIcon />}
+                    >
+                      Supprimer
+                    </Button>
                     <Button size="small">Edit</Button>
                   </CardActions>
                 </Card>
