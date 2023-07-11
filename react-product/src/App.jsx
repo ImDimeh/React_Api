@@ -29,7 +29,22 @@ function Copyright() {
   );
 }
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+var cards = [];
+//http://localhost:5500/product
+
+fetch("http://localhost:5500/product")
+  .then((response) => response.json())
+  .then((data) => {
+    // Le contenu de la réponse est stocké dans la variable 'data'
+    console.log(data);
+    cards = data;
+    console.log(cards);
+    // Faites ici ce que vous voulez avec la réponse
+  })
+  .catch((error) => {
+    // Gérer les erreurs
+    console.error("Une erreur s'est produite:", error);
+  });
 
 
 // TODO remove, this demo shouldn't need to reset the theme.
@@ -72,7 +87,7 @@ export default function Album() {
               color="text.secondary"
               paragraph
             >
-             voici la liste de tout les produits dans notre magasins
+              voici la liste de tout les produits dans notre magasins
             </Typography>
             <Stack
               sx={{ pt: 4 }}
@@ -107,13 +122,22 @@ export default function Album() {
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      Heading
+                      Nom : {card.name}
                     </Typography>
-                    <Typography>
-                      This is a media card. You can use this section to describe
-                      the content.
+                    <Typography gutterBottom variant="h6" component="h2">
+                      Type : {card.type}
+                    </Typography>
+                    <Typography gutterBottom variant="h6" component="h2">
+                      Prix : {card.price}
+                    </Typography>
+                    <Typography gutterBottom variant="h6" component="h2">
+                      Évaluation : {card.rating}
+                    </Typography>
+                    <Typography gutterBottom variant="h6" component="h2">
+                      Durée de garantie : {card.warranty_years} an(s)
                     </Typography>
                   </CardContent>
+
                   <CardActions>
                     <Button size="small">View</Button>
                     <Button size="small">Edit</Button>
