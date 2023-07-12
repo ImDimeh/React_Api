@@ -39,6 +39,130 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
+
+## explication du code 
+### recuprer les données de l'api
+grace au code si dessous je peux recuprer touts les produits depuis l'api .
+```
+var cards = [];
+//http://localhost:5500/product
+
+fetch("http://localhost:5500/product")
+  .then((response) => response.json())
+  .then((data) => {
+    // Le contenu de la réponse est stocké dans la variable 'data'
+    console.log(data);
+    cards = data;
+    console.log(cards);
+    // Faites ici ce que vous voulez avec la réponse
+  })
+  .catch((error) => {
+    // Gérer les erreurs
+    console.error("Une erreur s'est produite:", error);
+  });
+
+```
+
+Je peux ensuite utiliser la fonction .map() afin de generer dynamiquement les card pour tout les produits 
+
+```{cards.map((card) => (
+              <Grid item key={card} xs={12} sm={6} md={4}>
+                <Card
+                  sx={{
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <CardMedia
+                    component="div"
+                    sx={{
+                      // 16:9
+                      pt: "56.25%",
+                    }}
+                    image="https://source.unsplash.com/random?wallpapers"
+                  />
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Nom : {card.name}
+                    </Typography>
+                    <Typography gutterBottom variant="h6" component="h2">
+                      Type : {card.type}
+                    </Typography>
+                    <Typography gutterBottom variant="h6" component="h2">
+                      Prix : {card.price}
+                    </Typography>
+                    <Typography gutterBottom variant="h6" component="h2">
+                      Évaluation : {card.rating}
+                    </Typography>
+                    <Typography gutterBottom variant="h6" component="h2">
+                      Durée de garantie : {card.warranty_years} an(s)
+                    </Typography>
+                  </CardContent>
+
+                  <CardActions>
+                    <Button
+                      variant="outlined"
+                      onclick={deleteProduct(card.name)}
+                      startIcon={<DeleteIcon />}
+                    >
+                      Supprimer
+                    </Button>
+                    <Button size="small">Edit</Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+
+```
+
+### supprimer un produits 
+grace au code si dessous je peux réagir au clic sur le boutton supprimer afin d'appeler la fonction DeleteProduct avec en parametre le nom du produits a supprimer 
+```
+<Button
+                      variant="outlined"
+                      onclick={deleteProduct(card.name)}
+                      startIcon={<DeleteIcon />}
+                    >
+                      Supprimer
+                    </Button>
+
+
+```
+
+Ainsi je peux envoyer la requette a l'api afin de supprimer le produits 
+
+```
+async function deleteProduct(name) {
+  try {
+    const response = await fetch(
+      `http://localhost:5500/delete-product?name=${name}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (response.ok) {
+      const deleteProductResult = await response.json();
+      console.log(deleteProductResult);
+      // Faites ici ce que vous voulez avec les informations de suppression du produit
+    } else {
+      console.error(
+        "Une erreur s'est produite lors de la suppression du produit."
+      );
+    }
+  } catch (error) {
+    console.error(
+      "Une erreur s'est produite lors de la suppression du produit:",
+      error
+    );
+  }
+
+
+```
+
+
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
